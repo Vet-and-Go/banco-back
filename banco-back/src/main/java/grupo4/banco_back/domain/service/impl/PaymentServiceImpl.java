@@ -1,8 +1,8 @@
-package grupo4.banco_back.service.impl;
+package grupo4.banco_back.domain.service.impl;
 
 import java.util.Date;
 
-import grupo4.banco_back.service.PaymentService;
+import grupo4.banco_back.domain.service.PaymentService;
 
 public class PaymentServiceImpl implements PaymentService {
 

@@ -1,4 +1,4 @@
-package grupo4.banco_back.service;
+package grupo4.banco_back.domain.service;
 
 import java.util.Date;
 
