@@ -1,9 +1,9 @@
 package grupo4.banco_back.domain.model;
 
 public class BankAccount {
-  long id;
+  Long id;
   String iban;
-  double balance;
+  Double balance;
   String clientDni;
 
   public BankAccount(long id, String iban, double balance, String clientDni) {

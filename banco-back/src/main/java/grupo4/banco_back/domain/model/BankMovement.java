@@ -6,7 +6,7 @@ import java.util.Date;
 import grupo4.banco_back.domain.enums.*;
 
 public class BankMovement {
-  long id;
+  Long id;
   MOVEMENT_TYPE type;
   MOVEMENT_ORIGIN origin;
   CreditCard creditCard;

@@ -3,13 +3,13 @@ package grupo4.banco_back.domain.model;
 import java.util.Date;
 
 public class CreditCard {
-  long id;
-  int cardNumber;
+  Long id;
+  Long cardNumber;
   Date expirationDate;
   int cvv;
   String completeName;
 
-  public CreditCard(long id, int cardNumber, Date expirationDate, int cvv, String completeName) {
+  public CreditCard(long id, Long cardNumber, Date expirationDate, int cvv, String completeName) {
     this.id = id;
     this.cardNumber = cardNumber;
     this.expirationDate = expirationDate;
@@ -28,11 +28,11 @@ public class CreditCard {
     this.id = id;
   }
 
-  public int getCardNumber() {
+  public Long getCardNumber() {
     return cardNumber;
   }
 
-  public void setCardNumber(int cardNumber) {
+  public void setCardNumber(Long cardNumber) {
     this.cardNumber = cardNumber;
   }
 
