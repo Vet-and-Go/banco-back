@@ -3,6 +3,7 @@ package grupo4.banco_back.service;
 import java.util.Date;
 
 public interface PaymentService {
+  // - Daniel
   // Methods are arranged from most important to least important.
   // Are login & apiToken realted in database?
   Boolean validateStore(
@@ -17,13 +18,13 @@ public interface PaymentService {
       String cvv,
       String fullName);
 
-  // Can the origin account afford the payment?
-  Boolean validatePossiblePayment(
-      String cardNumber,
-      Double amount);
-
   // Are login & Account related in database?
   Boolean validateCorrectAccountRelation(
       String login,
       String destinationIban);
+
+  // Can the origin account afford the payment?
+  Boolean validatePossiblePayment(
+      String cardNumber,
+      Double amount);
 }
