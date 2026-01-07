@@ -2,7 +2,7 @@ package grupo4.banco_back.domain.model;
 
 public class Client {
   Long id;
-  boolean login;
+  String login;
   String password;
   String name;
   String firstSurname;
@@ -10,7 +10,7 @@ public class Client {
   String dni;
   String apiToken;
 
-  public Client(Long id, boolean login, String password, String name, String firstSurname, String secondSurname,
+  public Client(Long id, String login, String password, String name, String firstSurname, String secondSurname,
       String dni,
       String apiToken) {
     this.id = id;
@@ -26,11 +26,11 @@ public class Client {
   public Client() {
   }
 
-  public boolean isLogin() {
+  public String isLogin() {
     return login;
   }
 
-  public void setLogin(boolean login) {
+  public void setLogin(String login) {
     this.login = login;
   }
 
