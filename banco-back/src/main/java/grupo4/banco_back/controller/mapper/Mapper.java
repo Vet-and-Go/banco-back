@@ -1,17 +1,20 @@
 package grupo4.banco_back.controller.mapper;
 
+import java.math.BigDecimal;
+
 import grupo4.banco_back.domain.dto.PaymentDto;
+import java.util.Date;
 
 public class Mapper {
   public PaymentDto fromPaymentRequestToPaymentDto(
       String login,
       String apiToken,
       String CardNumber,
-      java.util.Date expirationDate,
+      Date expirationDate,
       String cvv,
-      String FullName,
+      String fullName,
       String destinationIban,
-      java.math.BigDecimal amount,
+      BigDecimal amount,
       String concept) {
 
     return new PaymentDto(
@@ -20,7 +23,7 @@ public class Mapper {
         CardNumber,
         expirationDate,
         cvv,
-        FullName,
+        fullName,
         destinationIban,
         amount,
         concept);

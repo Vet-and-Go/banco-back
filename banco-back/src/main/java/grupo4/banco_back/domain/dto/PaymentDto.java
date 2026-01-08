@@ -10,7 +10,7 @@ public record PaymentDto(
     String CardNumber,
     Date expirationDate,
     String cvv,
-    String FullName,
+    String fullName,
     String destinationIban,
     BigDecimal amount,
     String concept

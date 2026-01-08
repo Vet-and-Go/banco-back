@@ -1,11 +1,9 @@
-package grupo4.banco_back.domain.service;
+package grupo4.banco_back.domain.repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-public interface PaymentService {
-  // - Daniel
-  // Methods are arranged from most important to least important.
-  // Are login & apiToken realted in database?
+public interface PaymentRepository {
   Boolean validateStore(
       String login,
       String apiToken);
@@ -31,6 +29,6 @@ public interface PaymentService {
   void processPayment(
       String cardNumber,
       String destinationIban,
-      Double amount,
+      BigDecimal amount,
       String concept);
 }
