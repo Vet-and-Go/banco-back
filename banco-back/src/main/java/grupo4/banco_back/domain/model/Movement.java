@@ -5,7 +5,7 @@ import java.util.Date;
 
 import grupo4.banco_back.domain.enums.*;
 
-public class BankMovement {
+public class Movement {
   Long id;
   MOVEMENT_TYPE type;
   MOVEMENT_ORIGIN origin;
@@ -14,7 +14,7 @@ public class BankMovement {
   BigDecimal amount;
   String concept;
 
-  public BankMovement(long id, MOVEMENT_TYPE type, MOVEMENT_ORIGIN origin, CreditCard creditCard, Date date,
+  public Movement(long id, MOVEMENT_TYPE type, MOVEMENT_ORIGIN origin, CreditCard creditCard, Date date,
       BigDecimal amount, String concept) {
     this.id = id;
     this.type = type;
@@ -25,7 +25,7 @@ public class BankMovement {
     this.concept = concept;
   }
 
-  public BankMovement() {
+  public Movement() {
   }
 
   public long getId() {
