@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "credit_cards")
 public class CreditCardJpaEntity {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
