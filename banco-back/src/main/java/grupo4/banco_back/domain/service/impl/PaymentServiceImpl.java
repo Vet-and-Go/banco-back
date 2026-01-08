@@ -5,7 +5,6 @@ import java.util.Date;
 
 import grupo4.banco_back.domain.repository.PaymentRepository;
 import grupo4.banco_back.domain.service.PaymentService;
-import jakarta.transaction.Transactional;
 
 public class PaymentServiceImpl implements PaymentService {
 
@@ -27,25 +26,25 @@ public class PaymentServiceImpl implements PaymentService {
 
   @Override
   public Boolean validateAblePayment(String cardNumber, Double amount) {
-    // TODO Auto-generated method stub
+
     return null;
   }
 
   @Override
   public Boolean validateAccountRelation(String login, String destinationIban) {
-    // TODO Auto-generated method stub
+
     return null;
   }
 
   @Override
   public Boolean validateCard(String login, String cardNumber, Date expirationDate, String cvv, String fullName) {
-    // TODO Auto-generated method stub
+
     return null;
   }
 
   @Override
   public Boolean validateStore(String login, String apiToken) {
-    // TODO Auto-generated method stub
+
     return null;
   }
 
