@@ -1,5 +1,6 @@
 package grupo4.banco_back.domain.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public interface PaymentService {
@@ -31,6 +32,6 @@ public interface PaymentService {
   void processPayment(
       String cardNumber,
       String destinationIban,
-      Double amount,
+      BigDecimal amount,
       String concept);
 }
