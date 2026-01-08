@@ -8,4 +8,6 @@ public interface PaymentRepository {
       String destinationIban,
       BigDecimal amount,
       String concept);
+
+  void findAll();
 }

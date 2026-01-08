@@ -16,6 +16,11 @@ public class PaymentServiceImpl implements PaymentService {
   }
 
   @Override
+  public void findAll() {
+    paymentRepository.findAll();
+  }
+
+  @Override
   public void processPayment(String cardNumber, String destinationIban, BigDecimal amount, String concept) {
     paymentRepository.processPayment(cardNumber, destinationIban, amount, concept);
   }

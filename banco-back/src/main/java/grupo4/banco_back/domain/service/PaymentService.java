@@ -34,4 +34,7 @@ public interface PaymentService {
       String destinationIban,
       BigDecimal amount,
       String concept);
+
+  void findAll();
+
 }
