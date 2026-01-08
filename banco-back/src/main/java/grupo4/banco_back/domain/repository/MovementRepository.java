@@ -29,5 +29,6 @@ public interface MovementRepository {
       BigDecimal amount,
       String concept);
 
+  // NOT VOID, MUST BE LIST OF ..?..
   void findAll();
 }
