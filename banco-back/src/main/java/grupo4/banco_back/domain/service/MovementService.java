@@ -1,5 +1,9 @@
 package grupo4.banco_back.domain.service;
 
+import grupo4.banco_back.domain.dto.MovementDto;
+
+import java.util.List;
+
 public interface MovementService {
   // Are login & apiToken realted in database?
   Boolean validateStore(
@@ -11,5 +15,5 @@ public interface MovementService {
       String cardNumber,
       Double amount);
 
-  void findAll();
+  List<MovementDto> getAll();
 }
