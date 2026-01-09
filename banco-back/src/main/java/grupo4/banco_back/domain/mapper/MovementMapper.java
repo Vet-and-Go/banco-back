@@ -19,4 +19,17 @@ public class MovementMapper {
         movementDto.concept());
   }
 
+  public MovementDto fromMovementToMovementDto(Movement movement) {
+    if (movement == null) {
+      return null;
+    }
+    return new MovementDto(
+        movement.getId(),
+        movement.getType(),
+        movement.getOrigin(),
+        movement.getCreditCard(),
+        movement.getDate(),
+        movement.getAmount(),
+        movement.getConcept());
+  }
 }

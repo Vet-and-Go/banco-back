@@ -16,4 +16,24 @@ public record PaymentDto(
     String concept
 
 ) {
+  public PaymentDto(
+      String login,
+      String apiToken,
+      String CardNumber,
+      Date expirationDate,
+      String cvv,
+      String fullName,
+      String destinationIban,
+      BigDecimal amount,
+      String concept) {
+    this.login = login;
+    this.apiToken = apiToken;
+    this.CardNumber = CardNumber;
+    this.expirationDate = expirationDate;
+    this.cvv = cvv;
+    this.fullName = fullName;
+    this.destinationIban = destinationIban;
+    this.amount = amount;
+    this.concept = concept;
+  }
 }
