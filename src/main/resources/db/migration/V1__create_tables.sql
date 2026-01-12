@@ -38,3 +38,10 @@ CREATE TABLE bank_transactions (
     bank_account_id BIGINT,
     CONSTRAINT fk_bank_account_bt FOREIGN KEY (bank_account_id) REFERENCES bank_accounts(id)
 );
+
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL
+);
