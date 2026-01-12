@@ -45,3 +45,11 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE sessions (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    token VARCHAR(512) NOT NULL UNIQUE,
+    user_id BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
