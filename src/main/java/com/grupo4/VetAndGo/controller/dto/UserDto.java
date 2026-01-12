@@ -1,5 +1,7 @@
 package com.grupo4.VetAndGo.controller.dto;
 
+import com.grupo4.VetAndGo.domain.model.Role;
+
 public record UserDto(
     Long id,
     String username,
