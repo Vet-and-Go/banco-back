@@ -70,4 +70,9 @@ public class UserController {
     return ResponseEntity.ok(userDto);
   }
 
+  @PostMapping("/auth/logout")
+  public ResponseEntity<Void> logout(@RequestBody LoginDto loginDto) {
+    userService.logout(loginDto);
+    return ResponseEntity.noContent().build();
+  }
 }
