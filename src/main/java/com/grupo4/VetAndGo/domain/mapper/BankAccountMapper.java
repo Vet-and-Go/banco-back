@@ -1,4 +1,4 @@
-package com.grupo4.VetAndGo.domain.dao.mapper;
+package com.grupo4.VetAndGo.domain.mapper;
 
 import com.grupo4.VetAndGo.domain.model.BankAccount;
 import com.grupo4.VetAndGo.domain.model.Client;
