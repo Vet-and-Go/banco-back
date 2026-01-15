@@ -18,7 +18,6 @@ import com.grupo4.VetAndGo.domain.service.ClientService;
 import com.grupo4.VetAndGo.domain.service.CreditCardService;
 import com.grupo4.VetAndGo.persistence.dao.jpa.SessionJpaDao;
 import com.grupo4.VetAndGo.persistence.dao.jpa.impl.SessionJpaDaoImpl;
-import com.grupo4.VetAndGo.domain.service.CreditCardService;
 import com.grupo4.VetAndGo.domain.service.PasswordEncoderService;
 import com.grupo4.VetAndGo.domain.service.impl.BankAccountServiceImpl;
 import com.grupo4.VetAndGo.domain.service.impl.BankTransactionServiceImpl;
@@ -44,7 +43,6 @@ import com.grupo4.VetAndGo.persistence.repository.CreditCardRepositoryImpl;
 @EntityScan(basePackages = "com.grupo4.VetAndGo.persistence.dao.jpa.entity")
 public class SpringConfig {
 
-  // Repositories
   @Bean
   public BankAccountRepository bankAccountRepository(BankAccountJpaDao jpaDao) {
     return new BankAccountRepositoryImpl(jpaDao);
@@ -65,7 +63,6 @@ public class SpringConfig {
     return new CreditCardRepositoryImpl(jpaDao);
   }
 
-  // Services
   @Bean
   public BankAccountService bankAccountService(BankAccountRepository accountRepo) {
     return new BankAccountServiceImpl(accountRepo);
@@ -77,14 +74,15 @@ public class SpringConfig {
   }
 
   @Bean
-  public ClientService clientService(ClientRepository clientRepo, 
-                                     PasswordEncoderService passwordEncoderService,
-                                     SessionJpaDao sessionJpaDao) {
+  public ClientService clientService(ClientRepository clientRepo,
+      PasswordEncoderService passwordEncoderService,
+      SessionJpaDao sessionJpaDao) {
     return new ClientServiceImpl(clientRepo, passwordEncoderService, sessionJpaDao);
   }
 
   @Bean
-  public CreditCardService creditCardService(CreditCardRepository creditCardRepo, BankTransactionService bankTransactionService) {
+  public CreditCardService creditCardService(CreditCardRepository creditCardRepo,
+      BankTransactionService bankTransactionService) {
     return new CreditCardServiceImpl(creditCardRepo, bankTransactionService);
   }
 
@@ -103,8 +101,6 @@ public class SpringConfig {
   public SessionJpaDao sessionJpaDao() {
     return new SessionJpaDaoImpl();
   }
-
-
 
   @Bean
   public BankAccountJpaDao bankAccountJpaDao() {

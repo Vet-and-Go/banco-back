@@ -147,5 +147,15 @@ public class CreditCardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(0));
     }
-}
 
+    @Test
+    void findByBankAccountId_ShouldReturnListOfCreditCards() throws Exception {
+        List<CreditCard> cards = Arrays.asList(creditCard);
+        when(creditCardService.findByBankAccountId(1L)).thenReturn(cards);
+
+        mockMvc.perform(get("/api/credit-cards/account/{bankAccountId}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].cardNumber").value("1234567890123456"));
+    }
+}

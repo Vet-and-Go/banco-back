@@ -143,6 +143,21 @@ class CreditCardServiceImplTest {
     }
 
     @Test
+    void findByBankAccountId_ShouldReturnListOfCreditCards() {
+        // Arrange
+        List<CreditCard> cards = Arrays.asList(creditCard);
+        when(creditCardRepository.findByBankAccountId(1L)).thenReturn(cards);
+
+        // Act
+        List<CreditCard> result = creditCardService.findByBankAccountId(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(creditCardRepository, times(1)).findByBankAccountId(1L);
+    }
+
+    @Test
     void findTransactionsByCardId_ShouldReturnTransactions_WhenCardExists() {
         // Arrange
         BankTransaction transaction = new BankTransaction();
@@ -274,5 +289,14 @@ class CreditCardServiceImplTest {
         // Assert
         assertEquals(BigDecimal.ZERO, result);
     }
-}
 
+    @Test
+    void calculateMonthlySpending_ShouldThrowException_WhenCardDoesNotExist() {
+        // Arrange
+        when(creditCardRepository.findById(99L)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ValidationException.class, () -> creditCardService.calculateMonthlySpending(99L));
+        verify(creditCardRepository, times(1)).findById(99L);
+    }
+}

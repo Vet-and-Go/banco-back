@@ -3,14 +3,12 @@ package com.grupo4.VetAndGo.domain.service.impl;
 import com.grupo4.VetAndGo.domain.exception.ValidationException;
 import com.grupo4.VetAndGo.domain.model.BankTransaction;
 import com.grupo4.VetAndGo.domain.model.CreditCard;
-import com.grupo4.VetAndGo.domain.model.TransactionOrigin;
 import com.grupo4.VetAndGo.domain.repository.CreditCardRepository;
 import com.grupo4.VetAndGo.domain.service.BankTransactionService;
 import com.grupo4.VetAndGo.domain.service.CreditCardService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import com.grupo4.VetAndGo.domain.model.TransactionType;
@@ -20,7 +18,8 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final BankTransactionService bankTransactionService;
 
-    public CreditCardServiceImpl(CreditCardRepository creditCardRepository, BankTransactionService bankTransactionService) {
+    public CreditCardServiceImpl(CreditCardRepository creditCardRepository,
+            BankTransactionService bankTransactionService) {
         this.creditCardRepository = creditCardRepository;
         this.bankTransactionService = bankTransactionService;
     }
@@ -46,10 +45,15 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
+    public List<CreditCard> findByBankAccountId(Long bankAccountId) {
+        return creditCardRepository.findByBankAccountId(bankAccountId);
+    }
+
+    @Override
     public List<BankTransaction> findTransactionsByCardId(Long cardId) {
         CreditCard card = creditCardRepository.findById(cardId)
                 .orElseThrow(() -> new ValidationException("Card not found"));
-        
+
         return bankTransactionService.findByCardNumber(card.getCardNumber());
     }
 
@@ -70,6 +74,5 @@ public class CreditCardServiceImpl implements CreditCardService {
                 .map(BankTransaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 
 }

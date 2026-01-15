@@ -1,8 +1,15 @@
 package com.grupo4.VetAndGo.persistence.dao.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "credit_cards")
@@ -18,7 +25,7 @@ public class CreditCardJpaEntity implements Serializable {
     private String expirationDate;
 
     private String cvc;
-    
+
     @Column(name = "full_name")
     private String fullName;
 
@@ -29,7 +36,8 @@ public class CreditCardJpaEntity implements Serializable {
     public CreditCardJpaEntity() {
     }
 
-    public CreditCardJpaEntity(Long id, String cardNumber, String expirationDate, String cvc, String fullName, BankAccountJpaEntity bankAccount) {
+    public CreditCardJpaEntity(Long id, String cardNumber, String expirationDate, String cvc, String fullName,
+            BankAccountJpaEntity bankAccount) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;

@@ -2,10 +2,19 @@ package com.grupo4.VetAndGo.persistence.dao.jpa.entity;
 
 import com.grupo4.VetAndGo.domain.model.TransactionOrigin;
 import com.grupo4.VetAndGo.domain.model.TransactionType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bank_transactions")
@@ -34,7 +43,8 @@ public class BankTransactionJpaEntity implements Serializable {
     public BankTransactionJpaEntity() {
     }
 
-    public BankTransactionJpaEntity(Long id, String date, BigDecimal amount, String concept, TransactionType type, TransactionOrigin origin, String cardNumber, BankAccountJpaEntity bankAccount) {
+    public BankTransactionJpaEntity(Long id, String date, BigDecimal amount, String concept, TransactionType type,
+            TransactionOrigin origin, String cardNumber, BankAccountJpaEntity bankAccount) {
         this.id = id;
         this.date = date;
         this.amount = amount;

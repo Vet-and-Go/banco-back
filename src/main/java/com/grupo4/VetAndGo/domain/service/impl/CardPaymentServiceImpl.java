@@ -11,11 +11,7 @@ import com.grupo4.VetAndGo.domain.repository.BankAccountRepository;
 import com.grupo4.VetAndGo.domain.repository.CreditCardRepository;
 import com.grupo4.VetAndGo.domain.service.BankTransactionService;
 import com.grupo4.VetAndGo.domain.service.CardPaymentService;
-
-
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public class CardPaymentServiceImpl implements CardPaymentService {
 
@@ -24,8 +20,8 @@ public class CardPaymentServiceImpl implements CardPaymentService {
     private final BankTransactionService bankTransactionService;
 
     public CardPaymentServiceImpl(CreditCardRepository creditCardRepository,
-                                  BankAccountRepository bankAccountRepository,
-                                  BankTransactionService bankTransactionService) {
+            BankAccountRepository bankAccountRepository,
+            BankTransactionService bankTransactionService) {
         this.creditCardRepository = creditCardRepository;
         this.bankAccountRepository = bankAccountRepository;
         this.bankTransactionService = bankTransactionService;
@@ -35,7 +31,8 @@ public class CardPaymentServiceImpl implements CardPaymentService {
     public void processPayment(CardPayment payment) {
         String destinationIban = payment.getDestinationIban();
         if (destinationIban == null || !destinationIban.replaceAll("\\s+", "").matches("^ES\\d{22}$")) {
-            throw new IllegalArgumentException("Transaction failed: Invalid IBAN format. Must start with ES and have 22 digits.");
+            throw new IllegalArgumentException(
+                    "Transaction failed: Invalid IBAN format. Must start with ES and have 22 digits.");
         }
 
         BigDecimal amount = payment.getAmount();
@@ -48,7 +45,6 @@ public class CardPaymentServiceImpl implements CardPaymentService {
             throw new IllegalArgumentException("Transaction failed: Concept must have at least 3 characters.");
         }
 
-    
         CreditCard card = creditCardRepository.findByCardNumber(payment.getCardNumber())
                 .orElseThrow(() -> new IllegalArgumentException("Credit card authentication failed: Card not found."));
 
@@ -64,8 +60,8 @@ public class CardPaymentServiceImpl implements CardPaymentService {
         }
 
         BankAccount toAccount = bankAccountRepository.findByIban(destinationIban)
-                .orElseThrow(() -> new BussinesException("Transaction failed: Destination account IBAN not found or does not exist."));
-
+                .orElseThrow(() -> new BussinesException(
+                        "Transaction failed: Destination account IBAN not found or does not exist."));
 
         if (fromAccount.getBalance() == null) {
             fromAccount.setBalance(BigDecimal.ZERO);
@@ -77,7 +73,8 @@ public class CardPaymentServiceImpl implements CardPaymentService {
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
         bankAccountRepository.save(fromAccount);
 
-        bankTransactionService.createTransaction(fromAccount, amount, concept, TransactionType.DEBIT, TransactionOrigin.CARD, payment.getCardNumber());
+        bankTransactionService.createTransaction(fromAccount, amount, concept, TransactionType.DEBIT,
+                TransactionOrigin.CARD, payment.getCardNumber());
 
         if (toAccount.getBalance() == null) {
             toAccount.setBalance(BigDecimal.ZERO);
@@ -85,7 +82,8 @@ public class CardPaymentServiceImpl implements CardPaymentService {
         toAccount.setBalance(toAccount.getBalance().add(amount));
         bankAccountRepository.save(toAccount);
 
-        bankTransactionService.createTransaction(toAccount, amount, concept, TransactionType.CREDIT, TransactionOrigin.CARD);
+        bankTransactionService.createTransaction(toAccount, amount, concept, TransactionType.CREDIT,
+                TransactionOrigin.CARD);
     }
-    
+
 }

@@ -7,13 +7,18 @@ import java.util.List;
 import java.util.Optional;
 import java.math.BigDecimal;
 
-
 public interface CreditCardService {
     public List<CreditCard> findAll();
+
     public Optional<CreditCard> findById(Long id);
+
     public Optional<CreditCard> findByCardNumber(String cardNumber);
+
     List<CreditCard> findByClientId(Long clientId);
+
+    List<CreditCard> findByBankAccountId(Long bankAccountId);
+
     List<BankTransaction> findTransactionsByCardId(Long cardId);
+
     BigDecimal calculateMonthlySpending(Long cardId);
 }
-

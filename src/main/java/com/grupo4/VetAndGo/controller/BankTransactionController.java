@@ -3,9 +3,11 @@ package com.grupo4.VetAndGo.controller;
 import com.grupo4.VetAndGo.domain.model.BankTransaction;
 import com.grupo4.VetAndGo.domain.service.BankTransactionService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -35,6 +37,4 @@ public class BankTransactionController {
     public ResponseEntity<List<BankTransaction>> findByAccountId(@PathVariable Long accountId) {
         return ResponseEntity.ok(bankTransactionService.findByAccountId(accountId));
     }
-
-
 }

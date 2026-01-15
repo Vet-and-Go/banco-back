@@ -4,10 +4,13 @@ import com.grupo4.VetAndGo.domain.model.BankTransaction;
 import com.grupo4.VetAndGo.domain.model.CreditCard;
 import com.grupo4.VetAndGo.domain.service.CreditCardService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -38,13 +41,18 @@ public class CreditCardController {
         return ResponseEntity.ok(creditCardService.findByClientId(clientId));
     }
 
+    @GetMapping("/account/{bankAccountId}")
+    public ResponseEntity<List<CreditCard>> findByBankAccountId(@PathVariable Long bankAccountId) {
+        return ResponseEntity.ok(creditCardService.findByBankAccountId(bankAccountId));
+    }
+
     @GetMapping("/transactions/{cardId}")
     public ResponseEntity<List<BankTransaction>> getTransactions(@PathVariable Long cardId) {
         return ResponseEntity.ok(creditCardService.findTransactionsByCardId(cardId));
     }
 
     @GetMapping("/spending/{cardId}")
-    public ResponseEntity<java.math.BigDecimal> getMonthlySpending(@PathVariable Long cardId) {
+    public ResponseEntity<BigDecimal> getMonthlySpending(@PathVariable Long cardId) {
         return ResponseEntity.ok(creditCardService.calculateMonthlySpending(cardId));
     }
 }

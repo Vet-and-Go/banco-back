@@ -6,10 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
-
 import java.util.List;
 import java.util.Optional;
-
 
 public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
 
@@ -39,11 +37,20 @@ public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
     @Override
     public List<CreditCardJpaEntity> findByClientId(Long clientId) {
         TypedQuery<CreditCardJpaEntity> query = entityManager.createQuery(
-                "SELECT c FROM CreditCardJpaEntity c JOIN c.bankAccount b WHERE b.client.id = :clientId", CreditCardJpaEntity.class);
+                "SELECT c FROM CreditCardJpaEntity c JOIN c.bankAccount b WHERE b.client.id = :clientId",
+                CreditCardJpaEntity.class);
         query.setParameter("clientId", clientId);
         return query.getResultList();
     }
 
+    @Override
+    public List<CreditCardJpaEntity> findByBankAccountId(Long bankAccountId) {
+        TypedQuery<CreditCardJpaEntity> query = entityManager.createQuery(
+                "SELECT c FROM CreditCardJpaEntity c WHERE c.bankAccount.id = :bankAccountId",
+                CreditCardJpaEntity.class);
+        query.setParameter("bankAccountId", bankAccountId);
+        return query.getResultList();
+    }
 
     @Override
     public CreditCardJpaEntity insert(CreditCardJpaEntity jpaEntity) {

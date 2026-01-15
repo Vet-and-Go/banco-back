@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class CreditCardRepositoryImpl implements CreditCardRepository {
 
     private final CreditCardJpaDao creditCardJpaDao;
+
     public CreditCardRepositoryImpl(CreditCardJpaDao creditCardJpaDao) {
         this.creditCardJpaDao = creditCardJpaDao;
     }
@@ -38,6 +39,13 @@ public class CreditCardRepositoryImpl implements CreditCardRepository {
     @Override
     public List<CreditCard> findByClientId(Long clientId) {
         return creditCardJpaDao.findByClientId(clientId).stream()
+                .map(CreditCardMapper::toDomainCreditCard)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CreditCard> findByBankAccountId(Long bankAccountId) {
+        return creditCardJpaDao.findByBankAccountId(bankAccountId).stream()
                 .map(CreditCardMapper::toDomainCreditCard)
                 .collect(Collectors.toList());
     }

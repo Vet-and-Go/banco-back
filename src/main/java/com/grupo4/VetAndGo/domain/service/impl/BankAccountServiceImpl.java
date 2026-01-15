@@ -1,19 +1,11 @@
 package com.grupo4.VetAndGo.domain.service.impl;
 
-import com.grupo4.VetAndGo.domain.model.*;
+import com.grupo4.VetAndGo.domain.model.BankAccount;
 import com.grupo4.VetAndGo.domain.repository.BankAccountRepository;
-
-
 import com.grupo4.VetAndGo.domain.service.BankAccountService;
-import com.grupo4.VetAndGo.domain.exception.*;
- 
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-
 
 public class BankAccountServiceImpl implements BankAccountService {
     private final BankAccountRepository bankAccountRepository;
@@ -36,8 +28,4 @@ public class BankAccountServiceImpl implements BankAccountService {
     public List<BankAccount> findByClientId(Long clientId) {
         return bankAccountRepository.findByClientId(clientId);
     }
-
-
-
-
 }

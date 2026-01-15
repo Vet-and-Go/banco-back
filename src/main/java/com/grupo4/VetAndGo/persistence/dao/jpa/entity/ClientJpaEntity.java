@@ -1,6 +1,14 @@
 package com.grupo4.VetAndGo.persistence.dao.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,16 +22,16 @@ public class ClientJpaEntity implements Serializable {
     @Column(unique = true)
     private String login;
     private String password;
-    
+
     @Column(name = "first_name")
     private String firstName;
-    
+
     @Column(name = "last_name")
     private String lastName;
-    
+
     @Column(name = "second_last_name")
     private String secondLastName;
-    
+
     private String dni;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -32,7 +40,8 @@ public class ClientJpaEntity implements Serializable {
     public ClientJpaEntity() {
     }
 
-    public ClientJpaEntity(Long id, String login, String password, String firstName, String lastName, String secondLastName, String dni, List<BankAccountJpaEntity> bankAccounts) {
+    public ClientJpaEntity(Long id, String login, String password, String firstName, String lastName,
+            String secondLastName, String dni, List<BankAccountJpaEntity> bankAccounts) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -98,7 +107,6 @@ public class ClientJpaEntity implements Serializable {
     public void setDni(String dni) {
         this.dni = dni;
     }
-
 
     public List<BankAccountJpaEntity> getBankAccounts() {
         return bankAccounts;

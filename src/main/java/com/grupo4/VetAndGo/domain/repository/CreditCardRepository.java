@@ -6,7 +6,12 @@ import java.util.Optional;
 
 public interface CreditCardRepository {
     List<CreditCard> findAll();
+
     Optional<CreditCard> findById(Long id);
+
     Optional<CreditCard> findByCardNumber(String cardNumber);
+
     List<CreditCard> findByClientId(Long clientId);
+
+    List<CreditCard> findByBankAccountId(Long bankAccountId);
 }

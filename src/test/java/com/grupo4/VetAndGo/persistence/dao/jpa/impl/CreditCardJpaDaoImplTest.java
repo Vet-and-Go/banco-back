@@ -75,7 +75,8 @@ class CreditCardJpaDaoImplTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("1234567890123456", result.get(0).getCardNumber());
-        verify(entityManager, times(1)).createQuery(contains("SELECT c FROM CreditCardJpaEntity c"), eq(CreditCardJpaEntity.class));
+        verify(entityManager, times(1)).createQuery(contains("SELECT c FROM CreditCardJpaEntity c"),
+                eq(CreditCardJpaEntity.class));
     }
 
     @Test
@@ -220,8 +221,7 @@ class CreditCardJpaDaoImplTest {
         // Assert
         verify(entityManager, times(1)).createQuery(
                 contains("JOIN c.bankAccount b WHERE b.client.id = :clientId"),
-                eq(CreditCardJpaEntity.class)
-        );
+                eq(CreditCardJpaEntity.class));
     }
 
     @Test
@@ -255,8 +255,6 @@ class CreditCardJpaDaoImplTest {
         assertEquals("Jane Doe", result.getFullName());
         verify(entityManager, times(1)).merge(cardEntity);
     }
-
-
 
     @Test
     void count_ShouldReturnNumberOfCreditCards() {
@@ -298,6 +296,38 @@ class CreditCardJpaDaoImplTest {
     }
 
     @Test
+    void findByBankAccountId_ShouldReturnListOfCreditCards() {
+        // Arrange
+        when(entityManager.createQuery(anyString(), eq(CreditCardJpaEntity.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("bankAccountId"), anyLong())).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(Arrays.asList(cardEntity));
+
+        // Act
+        List<CreditCardJpaEntity> result = creditCardJpaDao.findByBankAccountId(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("1234567890123456", result.get(0).getCardNumber());
+        verify(typedQuery, times(1)).setParameter("bankAccountId", 1L);
+    }
+
+    @Test
+    void findByBankAccountId_ShouldReturnEmptyList_WhenAccountHasNoCards() {
+        // Arrange
+        when(entityManager.createQuery(anyString(), eq(CreditCardJpaEntity.class))).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("bankAccountId"), anyLong())).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(Collections.emptyList());
+
+        // Act
+        List<CreditCardJpaEntity> result = creditCardJpaDao.findByBankAccountId(99L);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
     void findByCardNumber_ShouldUseCorrectJPQLQuery() {
         // Arrange
         when(entityManager.createQuery(anyString(), eq(CreditCardJpaEntity.class))).thenReturn(typedQuery);
@@ -308,7 +338,7 @@ class CreditCardJpaDaoImplTest {
         creditCardJpaDao.findByCardNumber("1234567890123456");
 
         // Assert
-        verify(entityManager, times(1)).createQuery(contains("c.cardNumber = :cardNumber"), eq(CreditCardJpaEntity.class));
+        verify(entityManager, times(1)).createQuery(contains("c.cardNumber = :cardNumber"),
+                eq(CreditCardJpaEntity.class));
     }
 }
-

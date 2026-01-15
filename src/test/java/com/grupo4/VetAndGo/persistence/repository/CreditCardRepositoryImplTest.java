@@ -179,6 +179,34 @@ class CreditCardRepositoryImplTest {
         verify(creditCardJpaDao, times(1)).findByClientId(99L);
     }
 
+    @Test
+    void findByBankAccountId_ShouldReturnListOfCreditCards() {
+        // Arrange
+        when(creditCardJpaDao.findByBankAccountId(1L)).thenReturn(Arrays.asList(cardEntity));
+
+        // Act
+        List<CreditCard> result = creditCardRepository.findByBankAccountId(1L);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("1234567890123456", result.get(0).getCardNumber());
+        verify(creditCardJpaDao, times(1)).findByBankAccountId(1L);
+    }
+
+    @Test
+    void findByBankAccountId_ShouldReturnEmptyList_WhenAccountHasNoCards() {
+        // Arrange
+        when(creditCardJpaDao.findByBankAccountId(99L)).thenReturn(Collections.emptyList());
+
+        // Act
+        List<CreditCard> result = creditCardRepository.findByBankAccountId(99L);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(creditCardJpaDao, times(1)).findByBankAccountId(99L);
+    }
 
     @Test
     void findByCardNumber_ShouldHandleSpecialCharacters() {
@@ -193,4 +221,3 @@ class CreditCardRepositoryImplTest {
         verify(creditCardJpaDao, times(1)).findByCardNumber("1234-5678-9012-3456");
     }
 }
-
