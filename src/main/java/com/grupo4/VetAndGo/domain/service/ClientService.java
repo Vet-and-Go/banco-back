@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public interface ClientService {
     public List<Client> findAll();
-    public Optional<Client> findById(Long id);
-
+    Optional<Client> findById(Long id);
+    String login(String username, String password);
+    void logout(String username);
+    Optional<Client> validateSession(String token);
 }
+

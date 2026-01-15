@@ -5,22 +5,22 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public record Payment(
-    @JsonProperty("autorizacion")
+    @JsonProperty("authorization")
     @NotNull
     @Valid
     Authorization authorization,
 
-    @JsonProperty("origen")
+    @JsonProperty("origin")
     @NotNull
     @Valid
     Origin origin,
 
-    @JsonProperty("destino")
+    @JsonProperty("destination")
     @NotNull
     @Valid
     Destination destination,
 
-    @JsonProperty("pago")
+    @JsonProperty("paymentDetails")
     @NotNull
     @Valid
     PaymentDetails paymentDetails

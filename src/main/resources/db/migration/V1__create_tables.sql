@@ -1,4 +1,3 @@
-
 CREATE TABLE clients (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     login VARCHAR(255) UNIQUE NOT NULL,
@@ -6,8 +5,7 @@ CREATE TABLE clients (
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     second_last_name VARCHAR(255),
-    dni VARCHAR(50),
-    api_token VARCHAR(255)
+    dni VARCHAR(50)
 );
 
 CREATE TABLE bank_accounts (
@@ -35,21 +33,16 @@ CREATE TABLE bank_transactions (
     concept VARCHAR(255),
     type VARCHAR(50),
     origin VARCHAR(50),
+    card_number VARCHAR(255),
     bank_account_id BIGINT,
     CONSTRAINT fk_bank_account_bt FOREIGN KEY (bank_account_id) REFERENCES bank_accounts(id)
 );
 
-CREATE TABLE users (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL
-);
 
 CREATE TABLE sessions (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     token VARCHAR(512) NOT NULL UNIQUE,
-    user_id BIGINT NOT NULL,
+    client_id BIGINT NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );

@@ -24,9 +24,35 @@ public class BankTransactionJpaDaoImpl implements BankTransactionJpaDao {
     }
 
     @Override
+    public List<BankTransactionJpaEntity> findByAccountId(Long accountId) {
+        TypedQuery<BankTransactionJpaEntity> query = entityManager.createQuery(
+                "SELECT t FROM BankTransactionJpaEntity t WHERE t.bankAccount.id = :accountId", BankTransactionJpaEntity.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<BankTransactionJpaEntity> findByAccountIdAndOrigin(Long accountId, com.grupo4.VetAndGo.domain.model.TransactionOrigin origin) {
+        TypedQuery<BankTransactionJpaEntity> query = entityManager.createQuery(
+                "SELECT t FROM BankTransactionJpaEntity t WHERE t.bankAccount.id = :accountId AND t.origin = :origin", BankTransactionJpaEntity.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("origin", origin);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<BankTransactionJpaEntity> findByCardNumber(String cardNumber) {
+        TypedQuery<BankTransactionJpaEntity> query = entityManager.createQuery(
+                "SELECT t FROM BankTransactionJpaEntity t WHERE t.cardNumber = :cardNumber", BankTransactionJpaEntity.class);
+        query.setParameter("cardNumber", cardNumber);
+        return query.getResultList();
+    }
+
+    @Override
     public Optional<BankTransactionJpaEntity> findById(Long id) {
         return Optional.ofNullable(entityManager.find(BankTransactionJpaEntity.class, id));
     }
+
 
     @Override
     public BankTransactionJpaEntity insert(BankTransactionJpaEntity jpaEntity) {
@@ -37,14 +63,6 @@ public class BankTransactionJpaDaoImpl implements BankTransactionJpaDao {
     @Override
     public BankTransactionJpaEntity update(BankTransactionJpaEntity jpaEntity) {
         return entityManager.merge(jpaEntity);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        BankTransactionJpaEntity entity = entityManager.find(BankTransactionJpaEntity.class, id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
     }
 
     @Override

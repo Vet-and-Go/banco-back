@@ -7,7 +7,7 @@ import com.grupo4.VetAndGo.persistence.dao.jpa.entity.BankTransactionJpaEntity;
 
 public class BankTransactionMapper {
 
-  public static BankTransaction toDomain(BankTransactionJpaEntity entity) {
+  public static BankTransaction toDomainBankTransaction(BankTransactionJpaEntity entity) {
     if (entity == null)
       return null;
     return new BankTransaction(
@@ -17,10 +17,11 @@ public class BankTransactionMapper {
         entity.getConcept(),
         entity.getType(),
         entity.getOrigin(),
+        entity.getCardNumber(),
         toDomainAccount(entity.getBankAccount()));
   }
 
-  public static BankTransactionJpaEntity toEntity(BankTransaction domain) {
+  public static BankTransactionJpaEntity fromDomainBankTransactiontojpaEntity(BankTransaction domain) {
     if (domain == null)
       return null;
     BankTransactionJpaEntity entity = new BankTransactionJpaEntity();
@@ -30,6 +31,7 @@ public class BankTransactionMapper {
     entity.setConcept(domain.getConcept());
     entity.setType(domain.getType());
     entity.setOrigin(domain.getOrigin());
+    entity.setCardNumber(domain.getCardNumber());
     entity.setBankAccount(toEntityAccount(domain.getBankAccount()));
     return entity;
   }

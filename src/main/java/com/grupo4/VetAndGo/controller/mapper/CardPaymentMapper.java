@@ -5,18 +5,19 @@ import com.grupo4.VetAndGo.domain.model.CardPayment;
 
 public class CardPaymentMapper {
 
-    public static CardPayment toDomain(Payment dto) {
+    public static CardPayment toDomainCardPayment(Payment dto) {
         if (dto == null) {
             return null;
         }
 
-        return CardPayment.builder()
-                .destinationIban(dto.destination() != null ? dto.destination().iban() : null)
-                .amount(dto.paymentDetails() != null ? dto.paymentDetails().amount() : null)
-                .concept(dto.paymentDetails() != null ? dto.paymentDetails().concept() : null)
-                .cardNumber(dto.origin() != null ? dto.origin().cardNumber() : null)
-                .cardExpirationDate(dto.origin() != null ? dto.origin().cardExpirationDate() : null)
-                .cardCvv(dto.origin() != null ? dto.origin().cardCvv() : null)
-                .build();
+        return new CardPayment(
+                dto.destination().iban(),
+                dto.paymentDetails().amount(),
+                dto.paymentDetails().concept(),
+                dto.origin().cardNumber(),
+                dto.origin().cardExpirationDate(),
+                dto.origin().cardCvc(),
+                dto.origin().fullName()
+        );
     }
 }

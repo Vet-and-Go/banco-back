@@ -8,6 +8,5 @@ public interface CreditCardRepository {
     List<CreditCard> findAll();
     Optional<CreditCard> findById(Long id);
     Optional<CreditCard> findByCardNumber(String cardNumber);
-    CreditCard save(CreditCard creditCard);
-    void deleteById(Long id);
+    List<CreditCard> findByClientId(Long clientId);
 }

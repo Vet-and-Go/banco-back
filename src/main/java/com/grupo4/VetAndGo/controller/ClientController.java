@@ -18,8 +18,6 @@ public class ClientController {
     }
 
 
-
-
     @GetMapping
     public ResponseEntity<List<Client>> findAll() {
         return ResponseEntity.ok(clientService.findAll());
@@ -31,6 +29,30 @@ public class ClientController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        System.out.println("LOGIN REQUEST RECEIVED: username='" + request.username() + "', password='" + request.password() + "'");
+        String token = clientService.login(request.username(), request.password());
+        System.out.println("LOGIN SUCCESS: token=" + token);
+        return ResponseEntity.ok(new LoginResponse(token, request.username()));
+    }
+
+    @PostMapping("/auth/session")
+    public ResponseEntity<Client> validateSession(@RequestBody String token) {
+        return clientService.validateSession(token)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new com.grupo4.VetAndGo.domain.exception.ValidationException("Token inválido o expirado."));
+    }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<Void> logout(@RequestBody LoginRequest request) {
+        clientService.logout(request.username());
+        return ResponseEntity.noContent().build();
+    }
+
+    public record LoginRequest(String username, String password) {}
+    public record LoginResponse(String token, String username) {}
 
 
 }

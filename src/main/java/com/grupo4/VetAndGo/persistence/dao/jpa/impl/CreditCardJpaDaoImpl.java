@@ -37,6 +37,15 @@ public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
     }
 
     @Override
+    public List<CreditCardJpaEntity> findByClientId(Long clientId) {
+        TypedQuery<CreditCardJpaEntity> query = entityManager.createQuery(
+                "SELECT c FROM CreditCardJpaEntity c JOIN c.bankAccount b WHERE b.client.id = :clientId", CreditCardJpaEntity.class);
+        query.setParameter("clientId", clientId);
+        return query.getResultList();
+    }
+
+
+    @Override
     public CreditCardJpaEntity insert(CreditCardJpaEntity jpaEntity) {
         entityManager.persist(jpaEntity);
         return jpaEntity;
@@ -45,14 +54,6 @@ public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
     @Override
     public CreditCardJpaEntity update(CreditCardJpaEntity jpaEntity) {
         return entityManager.merge(jpaEntity);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        CreditCardJpaEntity entity = entityManager.find(CreditCardJpaEntity.class, id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
     }
 
     @Override

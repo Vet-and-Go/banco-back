@@ -7,7 +7,7 @@ import com.grupo4.VetAndGo.persistence.dao.jpa.entity.ClientJpaEntity;
 
 public class BankAccountMapper {
 
-  public static BankAccount toDomain(BankAccountJpaEntity entity) {
+  public static BankAccount toDomainBankAccount(BankAccountJpaEntity entity) {
     if (entity == null)
       return null;
     return new BankAccount(
@@ -17,7 +17,7 @@ public class BankAccountMapper {
         toDomainClient(entity.getClient()));
   }
 
-  public static BankAccountJpaEntity toEntity(BankAccount domain) {
+  public static BankAccountJpaEntity fromDomainAccounttojpaEntity(BankAccount domain) {
     if (domain == null)
       return null;
     BankAccountJpaEntity entity = new BankAccountJpaEntity();

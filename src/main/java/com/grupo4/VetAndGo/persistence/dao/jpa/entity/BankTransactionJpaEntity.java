@@ -24,6 +24,9 @@ public class BankTransactionJpaEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private TransactionOrigin origin;
 
+    @Column(name = "card_number")
+    private String cardNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_account_id")
     private BankAccountJpaEntity bankAccount;
@@ -31,13 +34,14 @@ public class BankTransactionJpaEntity implements Serializable {
     public BankTransactionJpaEntity() {
     }
 
-    public BankTransactionJpaEntity(Long id, String date, BigDecimal amount, String concept, TransactionType type, TransactionOrigin origin, BankAccountJpaEntity bankAccount) {
+    public BankTransactionJpaEntity(Long id, String date, BigDecimal amount, String concept, TransactionType type, TransactionOrigin origin, String cardNumber, BankAccountJpaEntity bankAccount) {
         this.id = id;
         this.date = date;
         this.amount = amount;
         this.concept = concept;
         this.type = type;
         this.origin = origin;
+        this.cardNumber = cardNumber;
         this.bankAccount = bankAccount;
     }
 
@@ -87,6 +91,14 @@ public class BankTransactionJpaEntity implements Serializable {
 
     public void setOrigin(TransactionOrigin origin) {
         this.origin = origin;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public BankAccountJpaEntity getBankAccount() {

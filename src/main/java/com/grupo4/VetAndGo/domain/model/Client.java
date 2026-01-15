@@ -8,12 +8,12 @@ public class Client {
     private String lastName;
     private String secondLastName;
     private String dni;
-    private String apiToken;
+
 
     public Client() {
     }
 
-    public Client(Long id, String login, String password, String firstName, String lastName, String secondLastName, String dni, String apiToken) {
+    public Client(Long id, String login, String password, String firstName, String lastName, String secondLastName, String dni) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -21,7 +21,6 @@ public class Client {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.dni = dni;
-        this.apiToken = apiToken;
     }
 
     public Long getId() { return id; }
@@ -45,6 +44,4 @@ public class Client {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
 
-    public String getApiToken() { return apiToken; }
-    public void setApiToken(String apiToken) { this.apiToken = apiToken; }
 }

@@ -8,6 +8,5 @@ public interface GenericJpaDao<T> {
     Optional<T> findById(Long id);
     T insert(T jpaEntity);
     T update(T jpaEntity);
-    void deleteById(Long id);
     long count();
 }

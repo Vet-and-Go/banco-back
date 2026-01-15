@@ -42,6 +42,15 @@ public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
     }
 
     @Override
+    public List<BankAccountJpaEntity> findByClientId(Long clientId) {
+        TypedQuery<BankAccountJpaEntity> query = entityManager.createQuery(
+                "SELECT b FROM BankAccountJpaEntity b WHERE b.client.id = :clientId", BankAccountJpaEntity.class);
+        query.setParameter("clientId", clientId);
+        return query.getResultList();
+    }
+
+
+    @Override
     public BankAccountJpaEntity insert(BankAccountJpaEntity jpaEntity) {
         entityManager.persist(jpaEntity);
         return jpaEntity;
@@ -50,14 +59,6 @@ public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
     @Override
     public BankAccountJpaEntity update(BankAccountJpaEntity jpaEntity) {
         return entityManager.merge(jpaEntity);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        BankAccountJpaEntity entity = entityManager.find(BankAccountJpaEntity.class, id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
     }
 
     @Override

@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface CreditCardJpaDao extends GenericJpaDao<CreditCardJpaEntity> {
     Optional<CreditCardJpaEntity> findByCardNumber(String cardNumber);
+    java.util.List<CreditCardJpaEntity> findByClientId(Long clientId);
 }

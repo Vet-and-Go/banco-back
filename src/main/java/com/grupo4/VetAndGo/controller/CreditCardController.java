@@ -1,5 +1,6 @@
 package com.grupo4.VetAndGo.controller;
 
+import com.grupo4.VetAndGo.domain.model.BankTransaction;
 import com.grupo4.VetAndGo.domain.model.CreditCard;
 import com.grupo4.VetAndGo.domain.service.CreditCardService;
 
@@ -32,5 +33,18 @@ public class CreditCardController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<CreditCard>> findByClientId(@PathVariable Long clientId) {
+        return ResponseEntity.ok(creditCardService.findByClientId(clientId));
+    }
 
+    @GetMapping("/transactions/{cardId}")
+    public ResponseEntity<List<BankTransaction>> getTransactions(@PathVariable Long cardId) {
+        return ResponseEntity.ok(creditCardService.findTransactionsByCardId(cardId));
+    }
+
+    @GetMapping("/spending/{cardId}")
+    public ResponseEntity<java.math.BigDecimal> getMonthlySpending(@PathVariable Long cardId) {
+        return ResponseEntity.ok(creditCardService.calculateMonthlySpending(cardId));
+    }
 }

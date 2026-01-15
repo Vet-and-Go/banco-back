@@ -1,7 +1,6 @@
 package com.grupo4.VetAndGo.persistence.dao.jpa.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,8 +14,8 @@ public class SessionJpaEntity {
   @Column(nullable = false, unique = true)
   private String token;
 
-  @Column(name = "user_id", nullable = false)
-  private Long userId;
+  @Column(name = "client_id", nullable = false)
+  private Long clientId;
 
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
@@ -24,9 +23,9 @@ public class SessionJpaEntity {
   public SessionJpaEntity() {
   }
 
-  public SessionJpaEntity(String token, Long userId, LocalDateTime createdAt) {
+  public SessionJpaEntity(String token, Long clientId, LocalDateTime createdAt) {
     this.token = token;
-    this.userId = userId;
+    this.clientId = clientId;
     this.createdAt = createdAt;
   }
 
@@ -46,12 +45,12 @@ public class SessionJpaEntity {
     this.token = token;
   }
 
-  public Long getUserId() {
-    return userId;
+  public Long getClientId() {
+    return clientId;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setClientId(Long clientId) {
+    this.clientId = clientId;
   }
 
   public LocalDateTime getCreatedAt() {

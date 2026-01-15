@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record PaymentDetails(
-    @JsonProperty("importe")
+    @JsonProperty("amount")
     @NotNull
     @DecimalMin(value = "0.01", message = "Amount must be positive")
     BigDecimal amount,
     
-    @JsonProperty("concepto")
+    @JsonProperty("concept")
     String concept
 ) {}

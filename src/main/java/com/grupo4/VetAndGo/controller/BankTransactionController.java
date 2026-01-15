@@ -31,5 +31,10 @@ public class BankTransactionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<List<BankTransaction>> findByAccountId(@PathVariable Long accountId) {
+        return ResponseEntity.ok(bankTransactionService.findByAccountId(accountId));
+    }
+
 
 }

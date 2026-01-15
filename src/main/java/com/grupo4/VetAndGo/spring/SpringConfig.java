@@ -11,41 +11,32 @@ import com.grupo4.VetAndGo.domain.repository.BankAccountRepository;
 import com.grupo4.VetAndGo.domain.repository.BankTransactionRepository;
 import com.grupo4.VetAndGo.domain.repository.ClientRepository;
 import com.grupo4.VetAndGo.domain.repository.CreditCardRepository;
-import com.grupo4.VetAndGo.domain.repository.TokenUtilsRepository;
-import com.grupo4.VetAndGo.domain.repository.UserRepository;
 import com.grupo4.VetAndGo.domain.service.BankAccountService;
 import com.grupo4.VetAndGo.domain.service.BankTransactionService;
 import com.grupo4.VetAndGo.domain.service.CardPaymentService;
 import com.grupo4.VetAndGo.domain.service.ClientService;
 import com.grupo4.VetAndGo.domain.service.CreditCardService;
+import com.grupo4.VetAndGo.persistence.dao.jpa.SessionJpaDao;
+import com.grupo4.VetAndGo.persistence.dao.jpa.impl.SessionJpaDaoImpl;
+import com.grupo4.VetAndGo.domain.service.CreditCardService;
 import com.grupo4.VetAndGo.domain.service.PasswordEncoderService;
-import com.grupo4.VetAndGo.domain.service.TokenUtils;
-import com.grupo4.VetAndGo.domain.service.UserService;
 import com.grupo4.VetAndGo.domain.service.impl.BankAccountServiceImpl;
 import com.grupo4.VetAndGo.domain.service.impl.BankTransactionServiceImpl;
 import com.grupo4.VetAndGo.domain.service.impl.CardPaymentServiceImpl;
 import com.grupo4.VetAndGo.domain.service.impl.ClientServiceImpl;
 import com.grupo4.VetAndGo.domain.service.impl.CreditCardServiceImpl;
-import com.grupo4.VetAndGo.domain.service.impl.TokenUtilsImpl;
-import com.grupo4.VetAndGo.domain.service.impl.UserServiceImpl;
 import com.grupo4.VetAndGo.persistence.dao.jpa.BankAccountJpaDao;
 import com.grupo4.VetAndGo.persistence.dao.jpa.BankTransactionJpaDao;
 import com.grupo4.VetAndGo.persistence.dao.jpa.ClientJpaDao;
 import com.grupo4.VetAndGo.persistence.dao.jpa.CreditCardJpaDao;
-import com.grupo4.VetAndGo.persistence.dao.jpa.TokenUtilsJpaDao;
-import com.grupo4.VetAndGo.persistence.dao.jpa.UserJpaDao;
 import com.grupo4.VetAndGo.persistence.dao.jpa.impl.BankAccountJpaDaoImpl;
 import com.grupo4.VetAndGo.persistence.dao.jpa.impl.BankTransactionJpaDaoImpl;
 import com.grupo4.VetAndGo.persistence.dao.jpa.impl.ClientJpaDaoImpl;
 import com.grupo4.VetAndGo.persistence.dao.jpa.impl.CreditCardJpaDaoImpl;
-import com.grupo4.VetAndGo.persistence.dao.jpa.impl.TokenUtilsJpaDaoImpl;
-import com.grupo4.VetAndGo.persistence.dao.jpa.impl.UserJpaDaoImpl;
 import com.grupo4.VetAndGo.persistence.repository.BankAccountRepositoryImpl;
 import com.grupo4.VetAndGo.persistence.repository.BankTransactionRepositoryImpl;
 import com.grupo4.VetAndGo.persistence.repository.ClientRepositoryImpl;
 import com.grupo4.VetAndGo.persistence.repository.CreditCardRepositoryImpl;
-import com.grupo4.VetAndGo.persistence.repository.TokenUtilsRepositoryImpl;
-import com.grupo4.VetAndGo.persistence.repository.UserRepositoryImpl;
 
 @Configuration
 @Profile("!test")
@@ -76,9 +67,8 @@ public class SpringConfig {
 
   // Services
   @Bean
-  public BankAccountService bankAccountService(BankAccountRepository accountRepo,
-      BankTransactionRepository transactionRepo) {
-    return new BankAccountServiceImpl(accountRepo, transactionRepo);
+  public BankAccountService bankAccountService(BankAccountRepository accountRepo) {
+    return new BankAccountServiceImpl(accountRepo);
   }
 
   @Bean
@@ -87,19 +77,21 @@ public class SpringConfig {
   }
 
   @Bean
-  public ClientService clientService(ClientRepository clientRepo) {
-    return new ClientServiceImpl(clientRepo);
+  public ClientService clientService(ClientRepository clientRepo, 
+                                     PasswordEncoderService passwordEncoderService,
+                                     SessionJpaDao sessionJpaDao) {
+    return new ClientServiceImpl(clientRepo, passwordEncoderService, sessionJpaDao);
   }
 
   @Bean
-  public CreditCardService creditCardService(CreditCardRepository creditCardRepo) {
-    return new CreditCardServiceImpl(creditCardRepo);
+  public CreditCardService creditCardService(CreditCardRepository creditCardRepo, BankTransactionService bankTransactionService) {
+    return new CreditCardServiceImpl(creditCardRepo, bankTransactionService);
   }
 
   @Bean
   public CardPaymentService cardPaymentService(CreditCardRepository creditCardRepo,
-      BankAccountRepository bankAccountRepo, BankTransactionRepository transactionRepo) {
-    return new CardPaymentServiceImpl(creditCardRepo, bankAccountRepo, transactionRepo);
+      BankAccountRepository bankAccountRepo, BankTransactionService bankTransactionService) {
+    return new CardPaymentServiceImpl(creditCardRepo, bankAccountRepo, bankTransactionService);
   }
 
   @Bean
@@ -108,32 +100,12 @@ public class SpringConfig {
   }
 
   @Bean
-  public UserService userService(UserRepository userRepository, PasswordEncoderService passwordEncoderService,
-      TokenUtilsRepository token) {
-    return new UserServiceImpl(passwordEncoderService, token, userRepository);
+  public SessionJpaDao sessionJpaDao() {
+    return new SessionJpaDaoImpl();
   }
 
-  @Bean
-  public UserRepository userRepository(UserJpaDao userJpaDao) {
-    return new UserRepositoryImpl(userJpaDao);
-  }
 
-  @Bean
-  public TokenUtils tokenUtils(TokenUtilsRepository tokenUtilsRepository) {
-    return new TokenUtilsImpl(tokenUtilsRepository);
-  }
 
-  @Bean
-  TokenUtilsRepository tokenUtilsRepository(TokenUtilsJpaDao tokenUtilsJpaDao) {
-    return new TokenUtilsRepositoryImpl(tokenUtilsJpaDao);
-  }
-
-  @Bean
-  TokenUtilsJpaDao tokenUtilsJpaDao() {
-    return new TokenUtilsJpaDaoImpl();
-  }
-
-  // JPA DAOs
   @Bean
   public BankAccountJpaDao bankAccountJpaDao() {
     return new BankAccountJpaDaoImpl();
@@ -154,8 +126,4 @@ public class SpringConfig {
     return new CreditCardJpaDaoImpl();
   }
 
-  @Bean
-  public UserJpaDao userJpaDao() {
-    return new UserJpaDaoImpl();
-  }
 }

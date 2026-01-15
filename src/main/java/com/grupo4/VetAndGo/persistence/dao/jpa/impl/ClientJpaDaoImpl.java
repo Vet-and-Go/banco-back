@@ -29,6 +29,17 @@ public class ClientJpaDaoImpl implements ClientJpaDao {
     }
 
     @Override
+    public Optional<ClientJpaEntity> findByLogin(String login) {
+        TypedQuery<ClientJpaEntity> query = entityManager.createQuery(
+                "SELECT c FROM ClientJpaEntity c WHERE c.login = :login", ClientJpaEntity.class);
+        query.setParameter("login", login);
+        return query.getResultList().stream().findFirst();
+    }
+
+
+
+
+    @Override
     public ClientJpaEntity insert(ClientJpaEntity jpaEntity) {
         entityManager.persist(jpaEntity);
         return jpaEntity;
@@ -37,14 +48,6 @@ public class ClientJpaDaoImpl implements ClientJpaDao {
     @Override
     public ClientJpaEntity update(ClientJpaEntity jpaEntity) {
         return entityManager.merge(jpaEntity);
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        ClientJpaEntity entity = entityManager.find(ClientJpaEntity.class, id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
     }
 
     @Override

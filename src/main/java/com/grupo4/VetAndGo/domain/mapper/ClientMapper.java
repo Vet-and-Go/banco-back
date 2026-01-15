@@ -5,7 +5,7 @@ import com.grupo4.VetAndGo.persistence.dao.jpa.entity.ClientJpaEntity;
 
 public class ClientMapper {
 
-  public static Client toDomain(ClientJpaEntity entity) {
+  public static Client toDomainClient(ClientJpaEntity entity) {
     if (entity == null)
       return null;
     return new Client(
@@ -15,11 +15,10 @@ public class ClientMapper {
         entity.getFirstName(),
         entity.getLastName(),
         entity.getSecondLastName(),
-        entity.getDni(),
-        entity.getApiToken());
+        entity.getDni());
   }
 
-  public static ClientJpaEntity toEntity(Client domain) {
+  public static ClientJpaEntity fromDomainClienttojpaEntity(Client domain) {
     if (domain == null)
       return null;
     ClientJpaEntity entity = new ClientJpaEntity();
@@ -30,7 +29,6 @@ public class ClientMapper {
     entity.setLastName(domain.getLastName());
     entity.setSecondLastName(domain.getSecondLastName());
     entity.setDni(domain.getDni());
-    entity.setApiToken(domain.getApiToken());
     return entity;
   }
 }

@@ -1,6 +1,7 @@
 package com.grupo4.VetAndGo.domain.model;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 
 public class CreditCard {
     private Long id;
@@ -39,4 +40,20 @@ public class CreditCard {
 
     public BankAccount getBankAccount() { return bankAccount; }
     public void setBankAccount(BankAccount bankAccount) { this.bankAccount = bankAccount; }
+
+    public YearMonth getYearMonth() {
+        if (expirationDate == null) {
+            throw new IllegalArgumentException("System error: Stored card has no expiration date.");
+        }
+        if (expirationDate.length() >= 7) {
+            int year = Integer.parseInt(expirationDate.substring(0, 4));
+            int month = Integer.parseInt(expirationDate.substring(5, 7));
+            return YearMonth.of(year, month);
+        }
+        throw new IllegalArgumentException("System error: Invalid stored card date format.");
+    }
+
+    public boolean isExpired() {
+        return getYearMonth().isBefore(YearMonth.now());
+    }
 }

@@ -25,9 +25,6 @@ public class ClientJpaEntity implements Serializable {
     private String secondLastName;
     
     private String dni;
-    
-    @Column(name = "api_token")
-    private String apiToken;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BankAccountJpaEntity> bankAccounts;
@@ -35,7 +32,7 @@ public class ClientJpaEntity implements Serializable {
     public ClientJpaEntity() {
     }
 
-    public ClientJpaEntity(Long id, String login, String password, String firstName, String lastName, String secondLastName, String dni, String apiToken, List<BankAccountJpaEntity> bankAccounts) {
+    public ClientJpaEntity(Long id, String login, String password, String firstName, String lastName, String secondLastName, String dni, List<BankAccountJpaEntity> bankAccounts) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -43,7 +40,6 @@ public class ClientJpaEntity implements Serializable {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.dni = dni;
-        this.apiToken = apiToken;
         this.bankAccounts = bankAccounts;
     }
 
@@ -103,13 +99,6 @@ public class ClientJpaEntity implements Serializable {
         this.dni = dni;
     }
 
-    public String getApiToken() {
-        return apiToken;
-    }
-
-    public void setApiToken(String apiToken) {
-        this.apiToken = apiToken;
-    }
 
     public List<BankAccountJpaEntity> getBankAccounts() {
         return bankAccounts;

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 @RestController
@@ -38,27 +38,20 @@ public class BankAccountController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
-
-    @PostMapping("/deposit")
-    public ResponseEntity<Void> deposit(@RequestBody AmountRequest request) {
-        bankAccountService.deposit(request.iban(), request.amount());
-        return ResponseEntity.ok().build();
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<BankAccount>> findByClientId(@PathVariable Long clientId) {
+        return ResponseEntity.ok(bankAccountService.findByClientId(clientId));
     }
 
-    public record AmountRequest(String iban, BigDecimal amount) {}
 
-    @PostMapping("/withdraw")
-    public ResponseEntity<Void> withdraw(@RequestBody AmountRequest request) {
-        bankAccountService.withdraw(request.iban(), request.amount());
-        return ResponseEntity.ok().build();
-    }
+
+
 
 
 
     @PostMapping(value = "/payment", consumes = "application/json")
     public ResponseEntity<Void> payWithCard(@RequestBody Payment request) {
-        CardPayment cardPayment = CardPaymentMapper.toDomain(request);
+        CardPayment cardPayment = CardPaymentMapper.toDomainCardPayment(request);
         cardPaymentService.processPayment(cardPayment);
         return ResponseEntity.ok().build();
     }

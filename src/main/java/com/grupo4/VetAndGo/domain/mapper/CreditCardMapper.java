@@ -7,7 +7,7 @@ import com.grupo4.VetAndGo.persistence.dao.jpa.entity.CreditCardJpaEntity;
 
 public class CreditCardMapper {
 
-  public static CreditCard toDomain(CreditCardJpaEntity entity) {
+  public static CreditCard toDomainCreditCard(CreditCardJpaEntity entity) {
     if (entity == null)
       return null;
     return new CreditCard(
@@ -19,7 +19,7 @@ public class CreditCardMapper {
         toDomainAccount(entity.getBankAccount()));
   }
 
-  public static CreditCardJpaEntity toEntity(CreditCard domain) {
+  public static CreditCardJpaEntity fromDomainCreditCardtojpaEntity(CreditCard domain) {
     if (domain == null)
       return null;
     CreditCardJpaEntity entity = new CreditCardJpaEntity();
