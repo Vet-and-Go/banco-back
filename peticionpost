@@ -1,0 +1,19 @@
+{
+  "authorization": {
+    "login": "juan",
+    "api_token": "5f5ca67f-4c02-47cf-8753-a7790f7f5be1"
+  },
+  "origin": {
+    "cardNumber": "1234567890123456",
+    "expirationDate": "2028-12",
+    "cvc": "123",
+    "fullName": "Juan Perez"
+  },
+  "destination": {
+    "iban": "ES61 1234 3456 4204 5632 5555"
+  },
+  "paymentDetails": {
+    "amount": 12,
+    "concept": "Comprar PC"
+  }
+}

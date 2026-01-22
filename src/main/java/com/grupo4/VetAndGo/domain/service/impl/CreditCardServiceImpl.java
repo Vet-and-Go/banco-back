@@ -15,64 +15,72 @@ import com.grupo4.VetAndGo.domain.model.TransactionType;
 
 public class CreditCardServiceImpl implements CreditCardService {
 
-    private final CreditCardRepository creditCardRepository;
-    private final BankTransactionService bankTransactionService;
+  private final CreditCardRepository creditCardRepository;
+  private final BankTransactionService bankTransactionService;
 
-    public CreditCardServiceImpl(CreditCardRepository creditCardRepository,
-            BankTransactionService bankTransactionService) {
-        this.creditCardRepository = creditCardRepository;
-        this.bankTransactionService = bankTransactionService;
-    }
+  public CreditCardServiceImpl(CreditCardRepository creditCardRepository,
+      BankTransactionService bankTransactionService) {
+    this.creditCardRepository = creditCardRepository;
+    this.bankTransactionService = bankTransactionService;
+  }
 
-    @Override
-    public List<CreditCard> findAll() {
-        return creditCardRepository.findAll();
-    }
+  @Override
+  public List<CreditCard> findAll() {
+    return creditCardRepository.findAll();
+  }
 
-    @Override
-    public Optional<CreditCard> findById(Long id) {
-        return creditCardRepository.findById(id);
-    }
+  @Override
+  public Optional<CreditCard> findById(Long id) {
+    return creditCardRepository.findById(id);
+  }
 
-    @Override
-    public Optional<CreditCard> findByCardNumber(String cardNumber) {
-        return creditCardRepository.findByCardNumber(cardNumber);
-    }
+  @Override
+  public Optional<CreditCard> findByCardNumber(String cardNumber) {
+    return creditCardRepository.findByCardNumber(cardNumber);
+  }
 
-    @Override
-    public List<CreditCard> findByClientId(Long clientId) {
-        return creditCardRepository.findByClientId(clientId);
-    }
+  @Override
+  public List<CreditCard> findByClientId(Long clientId) {
+    return creditCardRepository.findByClientId(clientId);
+  }
 
-    @Override
-    public List<CreditCard> findByBankAccountId(Long bankAccountId) {
-        return creditCardRepository.findByBankAccountId(bankAccountId);
-    }
+  @Override
+  public List<CreditCard> findByBankAccountId(Long bankAccountId) {
+    return creditCardRepository.findByBankAccountId(bankAccountId);
+  }
 
-    @Override
-    public List<BankTransaction> findTransactionsByCardId(Long cardId) {
-        CreditCard card = creditCardRepository.findById(cardId)
-                .orElseThrow(() -> new ValidationException("Card not found"));
+  @Override
+  public List<BankTransaction> findTransactionsByCardId(Long cardId) {
+    CreditCard card = creditCardRepository.findById(cardId)
+        .orElseThrow(() -> new ValidationException("Card not found"));
 
-        return bankTransactionService.findByCardNumber(card.getCardNumber());
-    }
+    return bankTransactionService.findByCardNumber(card.getCardNumber());
+  }
 
-    @Override
-    public BigDecimal calculateMonthlySpending(Long cardId) {
-        List<BankTransaction> transactions = findTransactionsByCardId(cardId);
-        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
-
-        return transactions.stream()
-                .filter(t -> t.getType() == TransactionType.DEBIT)
-                .filter(t -> {
-                    try {
-                        return LocalDateTime.parse(t.getDate()).isAfter(oneMonthAgo);
-                    } catch (Exception e) {
-                        return false;
-                    }
-                })
-                .map(BankTransaction::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+  @Override
+  public BigDecimal calculateMonthlySpending(Long cardId) {
+    List<BankTransaction> transactions = findTransactionsByCardId(cardId);
+    LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+    java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    return transactions.stream()
+        .filter(t -> t.getType() == TransactionType.DEBIT)
+        .filter(t -> {
+          if (t.getDate() == null)
+            return false;
+          try {
+            // Try expected format
+            return LocalDateTime.parse(t.getDate(), formatter).isAfter(oneMonthAgo);
+          } catch (Exception e) {
+            // Try fallback ISO format
+            try {
+              return LocalDateTime.parse(t.getDate()).isAfter(oneMonthAgo);
+            } catch (Exception e2) {
+              return false;
+            }
+          }
+        })
+        .map(BankTransaction::getAmount)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
 
 }
