@@ -15,8 +15,8 @@ public class CardPaymentMapper {
                 dto.paymentDetails().amount(),
                 dto.paymentDetails().concept(),
                 dto.origin().cardNumber(),
-                dto.origin().cardExpirationDate(),
-                dto.origin().cardCvc(),
+                dto.origin().expirationDate(),
+                dto.origin().cvc(),
                 dto.origin().fullName()
         );
     }

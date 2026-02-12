@@ -45,12 +45,29 @@ public class CreditCard {
         if (expirationDate == null) {
             throw new IllegalArgumentException("System error: Stored card has no expiration date.");
         }
-        if (expirationDate.length() >= 7) {
+        
+        // Support YYYY-MM format (stored in database)
+        if (expirationDate.matches("^\\d{4}-\\d{2}$")) {
             int year = Integer.parseInt(expirationDate.substring(0, 4));
             int month = Integer.parseInt(expirationDate.substring(5, 7));
             return YearMonth.of(year, month);
         }
-        throw new IllegalArgumentException("System error: Invalid stored card date format.");
+        
+        // Support YYYY-MM-DD format (full date in database)
+        if (expirationDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            int year = Integer.parseInt(expirationDate.substring(0, 4));
+            int month = Integer.parseInt(expirationDate.substring(5, 7));
+            return YearMonth.of(year, month);
+        }
+        
+        // Support MM/YY format
+        if (expirationDate.matches("^\\d{2}/\\d{2}$")) {
+            int month = Integer.parseInt(expirationDate.substring(0, 2));
+            int year = 2000 + Integer.parseInt(expirationDate.substring(3, 5));
+            return YearMonth.of(year, month);
+        }
+        
+        throw new IllegalArgumentException("System error: Invalid stored card date format: " + expirationDate);
     }
 
     public boolean isExpired() {

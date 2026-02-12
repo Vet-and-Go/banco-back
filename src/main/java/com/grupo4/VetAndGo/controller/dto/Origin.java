@@ -10,11 +10,11 @@ public record Origin(
     
     @JsonProperty("expirationDate")
     @Pattern(regexp = "^(\\d{2}/\\d{2}|\\d{4}-\\d{2})$", message = "Expiration date must be MM/YY or YYYY-MM")
-    String cardExpirationDate,
+    @NotBlank String expirationDate,
     
     @JsonProperty("cvc")
-    @NotBlank String cardCvc,
+    @NotBlank String cvc,
     
     @JsonProperty("fullName")
-    String fullName
+    @NotBlank String fullName
 ) {}
