@@ -217,7 +217,9 @@ class BankTransactionServiceImplTest {
         verify(bankTransactionRepository, times(1)).save(transactionCaptor.capture());
         BankTransaction captured = transactionCaptor.getValue();
         assertNotNull(captured.getDate());
-        assertTrue(captured.getDate().contains("2026-01"));
+        
+        String currentMonth = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM"));
+        assertTrue(captured.getDate().contains(currentMonth));
     }
 }
 
